@@ -1,0 +1,43 @@
+$own-gray: #ced4da;
+
+// autosuggestion
+.suggestions_block {
+    position: relative;
+    display: none;
+
+    .suggestions {
+        background-color: white;
+        margin-top: 5px;
+        position: absolute;
+        border-radius: .25rem;
+        border: 1px solid $own-gray;
+        width: 50%;
+        z-index: 10;
+        
+        ul{
+            max-height:180px !important;
+            overflow: scroll !important;
+            padding-inline-start: 0;
+            
+            li {
+                padding: 5px;
+                padding-left: 25px;
+                list-style: none;
+                &:hover {
+                    background-color: $own-gray;
+                }        
+            }
+    }
+}
+}
+
+#filter_form{
+    margin-top: 30px;
+    font-size: 18px;
+    display: none;
+}
+
+.filter_row {
+    margin: 10px;
+}
+

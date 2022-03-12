@@ -1,0 +1,42 @@
+.suggestions_block {
+  position: relative;
+  display: none;
+}
+
+.suggestions_block .suggestions {
+  background-color: white;
+  margin-top: 5px;
+  position: absolute;
+  border-radius: .25rem;
+  border: 1px solid #ced4da;
+  width: 50%;
+  z-index: 10;
+}
+
+.suggestions_block .suggestions ul {
+  max-height: 180px !important;
+  overflow: scroll !important;
+  -webkit-padding-start: 0;
+          padding-inline-start: 0;
+}
+
+.suggestions_block .suggestions ul li {
+  padding: 5px;
+  padding-left: 25px;
+  list-style: none;
+}
+
+.suggestions_block .suggestions ul li:hover {
+  background-color: #ced4da;
+}
+
+#filter_form {
+  margin-top: 30px;
+  font-size: 18px;
+  display: none;
+}
+
+.filter_row {
+  margin: 10px;
+}
+/*# sourceMappingURL=style.css.map */

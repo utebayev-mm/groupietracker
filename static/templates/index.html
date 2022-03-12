@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<!--  -->
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Groupie Tracker</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj"
+        crossorigin="anonymous"></script>
+
+
+    <style>
+        body {
+            background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+            background-size: 400% 400%;
+            animation: gradient 15s ease infinite;
+            height: 350vh;
+        }
+
+        @keyframes gradient {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+
+
+        @keyframes AnimationName {
+            0% {
+                background-position: 0% 50%
+            }
+
+            50% {
+                background-position: 100% 50%
+            }
+
+            100% {
+                background-position: 0% 50%
+            }
+        }
+
+        #main_con {
+            height: 50vh;
+            color: white;
+        }
+    </style>
+    <link rel="stylesheet" href="static/styles/style.css">
+
+
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/" style="font-family:Impact, Charcoal, sans-serif;">Groupie Tracker</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/">Home</a>
+                    </li>
+
+                </ul>
+
+            </div>
+        </div>
+    </nav>
+    <div class="container" style="margin-top: 50px;">
+        <div class="row justify-content-center align-items-center">
+            <div class="col-12 col-sm-12 col-md-12">
+                <form method="POST" id="form">
+                    <div class="row">
+                        <div class="col-6">
+                            <input autocomplete="off" name="search" class="form-control me-2" type="search"
+                                id="search_input" placeholder="Search" aria-label="Search">
+                        </div>
+                        <div class="col-3">
+                            <select form="form" name="type" class="form-select" id="select"
+                                aria-label="Default select example">
+                                <option selected value="artist">Artist</option>
+                                <option value="member">Member</option>
+                                <option value="location">Location</option>
+                                <option value="firstalbum">First Album</option>
+                                <option value="creationDate">Creation Date</option>
+                            </select>
+                        </div>
+                        <div class="col-3 ">
+
+                            <button form="form" name="submit" class="btn btn btn-success" type="submit">Search</button>
+
+                            <button  form="form" name="submit" onclick="showfilter()" class="btn btn-secondary"
+                                type="button">Show filter</button>
+                            <input type="checkbox" id="checker"  name="filter"  >
+                        </div>
+                    </div>
+                </form>
+                <div class="col suggestions_block">
+                    <div class="suggestions">
+                        <ul id="list">
+                            {{range .Artists}}
+                            <li class="option">{{.Name}} // artist</li>
+                            <li class="option">{{.CreationDate}} // creationDate</li>
+                            {{range .Members}}
+                            <li class="option">{{.}} // member</li>
+                            {{end}}
+                            <li class="option">{{.FirstAlbum}} // firstalbum</li>
+
+                            {{end}}
+                            {{range .Locations.Index}}
+                            {{range .Locations}}
+                            <li class="option">{{.}} // location</li>
+                            {{end}}
+                            {{end}}
+
+                        </ul>
+                    </div>
+                </div>
+                <div class="row" id="filter_form">
+                    <div class="col-12 ">
+                        <form>
+                            <div class="row filter_row">
+                                <div class="col-2  offset-1">
+                                    <label for="creationdateFrom">Filter by creation date</label>
+
+                                </div>
+                                <div class="col-2">
+                                    <input type="number" id="filtersync" onkeypress='return event.charCode >= 48 && event.charCode <= 57' name="creationdateFrom" placeholder="1900">
+                                    
+                                    <input type="range" min="1900" max="2100" id="rangeInput"  name="creationdateFrom" placeholder="1900" style="width: 265%">
+                                </div>
+                                <div class="col-2">
+                                    <input type="number" onkeypress='return event.charCode >= 48 && event.charCode <= 57' name="creationdateTo" placeholder="2000">
+
+                                </div>
+
+                            </div>
+                            <div class="row filter_row">
+                                <div class="col-2 offset-1">
+                                    <label for="firstalbumFrom">Filter by first album date</label>
+
+                                </div>
+                                <div class="col-2">
+                                    <input type="number" onkeypress='return event.charCode >= 48 && event.charCode <= 57' name="firstalbumFrom" placeholder="1900">
+                                </div>
+                                <div class="col-2">
+                                    <input type="number" onkeypress='return event.charCode >= 48 && event.charCode <= 57' name="firstalbumTo" placeholder="2000">
+
+                                </div>
+
+                            </div>
+                            <div class="row filter_row">
+
+                                <div class="col-2 offset-1">
+                                    <label for="numbersofmemberFrom">Filter by number of members</label>
+
+                                </div>
+                                <div class="col-2 ">
+                                    <input type="number" onkeypress='return event.charCode >= 48 && event.charCode <= 57' name="numbersofmemberFrom" placeholder="1">
+                                </div>
+                                <div class="col-2 ">
+                                    <input type="number" onkeypress='return event.charCode >= 48 && event.charCode <= 57' name="numbersofmemberTo" placeholder="10">
+
+                                </div>
+
+                            </div>
+                            <div class="row filter_row">
+                                <div class="col-2 offset-1">
+                                    <label for="locationFrom">Filter by locations of concerts</label>
+
+                                </div>
+                                <div class="col-3">
+                                    <input type="text" name="location" placeholder="london">
+                                </div>
+                                
+
+                                <div class="col-2">
+                                    <button name="submit" class="btn btn btn-success" type="submit"> Filter </button>
+
+                                </div>
+                            </div>
+
+
+                        </form>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+    <div class="container">
+
+        <div><br></div>
+        <div class="row row-cols-2 row-cols-md-4  row-cols-sm-3 g-4">
+            {{if .Searched}}
+            {{range .Searched}}
+            <div class="col">
+                <div class="card">
+                    <img src="{{.Image}}" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">{{.Name}}</h5>
+                        <p class="card-text">
+                            <span style="color:rgb(158, 158, 158)">
+                                Creation Date:
+                            </span>
+                            <br>
+                            <span>
+                                {{.CreationDate}}
+                            </span>
+                            <br>
+                            <span style="color:rgb(158, 158, 158)">
+                                First Album:
+                            </span>
+                            <br>
+                            <span>
+                                {{.FirstAlbum}}
+                            </span>
+                        </p>
+                        <div class="d-flex justify-content-center">
+                            <a href="/artist/{{.Id}}" class="btn btn-primary">Show more information</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {{end}}
+            {{else}}
+
+            {{end}}
+            <br>
+        </div>
+    </div>
+    <script src="static/js/scripts.js"></script>
+</body>
+
+</html>
